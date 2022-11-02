@@ -1,0 +1,19 @@
+name: Build a binary for ARM 
+on: [push]
+jobs:
+  Make-Arm-Binary:
+    runs-on: ubuntu-latest
+    steps:
+      - name: prepare software for multi arch
+        run: apt-get install qemu binfmt-support qemu-user-static
+
+      - name: reset qemu user statistics
+        run: docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
+
+      - name: make binary
+        run: docker run --rm --platform linux/arm64/v8 -it -v "${PWD}:/build" arm64v8/golang /bin/bash -c "cd /build && go build main.go"
+
+      - uses: actions/upload-artifact@v3
+        with:
+          name: helloWorld
+          path: main
