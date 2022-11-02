@@ -5,7 +5,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: prepare software for multi arch
-        run: apt-get install -y qemu binfmt-support qemu-user-static
+        run: sudo apt-get install -y qemu binfmt-support qemu-user-static
 
       - name: reset qemu user statistics
         run: docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
